@@ -1,8 +1,9 @@
 import java.awt.Color;
 import java.awt.Point;
+import java.io.Serializable;
 import java.awt.Graphics;
 
-public abstract class Shape
+public abstract class Shape implements Serializable
 {
     protected Point start;
     protected Point end;

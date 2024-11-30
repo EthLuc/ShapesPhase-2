@@ -31,7 +31,7 @@ public class Drawing extends JFrame {
             }
         });
     
-        JLabel instructions = new JLabel("(E)rase (T)rails (L)ine (B)ox (O)val (C)olor");
+        JLabel instructions = new JLabel("(E)rase (T)rails (L)ine (B)ox (O)val (C)olor (S)ave (R)estore");
         add(instructions, BorderLayout.SOUTH);
     }
 

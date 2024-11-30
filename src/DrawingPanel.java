@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 public class DrawingPanel extends JComponent {
@@ -75,8 +81,48 @@ public class DrawingPanel extends JComponent {
                 break;
                 case 'c': currentColor = JColorChooser.showDialog(this, "Choose Color", currentColor);
                 break;
+                case 's': saveDrawing();
+                break;
+                case 'r': restoreDrawing();
+                break;
             }
             repaint();
+        }
+
+        private void saveDrawing()
+        {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) 
+            {
+                File file = fileChooser.getSelectedFile();
+                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) 
+                {
+                    out.writeObject(shapes);
+                } catch (IOException e) 
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+
+        private void restoreDrawing()
+        {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) 
+            {
+                File file = fileChooser.getSelectedFile();
+                try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+                shapes = (ArrayList<Shape>) in.readObject();
+                repaint();
+                } catch (IOException | ClassNotFoundException e) 
+                {
+                    e.printStackTrace();
+                }
+            }
         }
 
         protected void paintComponent(Graphics g)
